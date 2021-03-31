@@ -1,2 +1,1 @@
-line-bot-sdk
-flask
+python-3.8.3
