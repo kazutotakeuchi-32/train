@@ -23,13 +23,11 @@ def callback():
     abort(400)
   return 'OK'
 
-
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   line_bot_api.reply_message(
     event.reply_token,
     TextMessage(text=event.message.text)
     )
-
 if __name__ == "__main__":
   app.run()
