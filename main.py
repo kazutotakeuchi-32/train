@@ -23,7 +23,7 @@ def callback():
   print(body)
   app.logger.info("Request body:"+body)
   try:
-    handler.handler(body,signature)
+    handler.handle(body, signature)
   except InvalidSignatureError:
     print("Invalid signature. Please check your channel access token/channel secret .")
     abort(400)
