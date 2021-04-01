@@ -9,9 +9,8 @@ YOUR_CHANNEL_ACCESS_TOKEN= os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 
 
 app = Flask(__name__)
-line_bot_api = LineBotApi(YOUR_CHANNEL_SECRET)
-handler = WebhookHandler(YOUR_CHANNEL_ACCESS_TOKEN)
-
+line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 @app.route("/index", methods=['POST'])
 def index():
