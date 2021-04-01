@@ -15,7 +15,7 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 @app.route("/index", methods=['GET'])
 def index():
     return render_template("index.html")
-    # print("ok")
+    #print("ok")
     # return 'OK'
 
 @app.route("/callback",methods=['POST'])
