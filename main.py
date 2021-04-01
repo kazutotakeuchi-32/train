@@ -14,6 +14,7 @@ handler = WebhookHandler(YOUR_CHANNEL_ACCESS_TOKEN)
 @app.route("/index", methods=['POST'])
 def index():
     return 'OK'
+    print("ok")
 
 @app.route("/callback",methods=['POST'])
 def callback():
