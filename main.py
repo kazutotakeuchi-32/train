@@ -13,13 +13,14 @@ handler = WebhookHandler(YOUR_CHANNEL_ACCESS_TOKEN)
 
 @app.route("/index", methods=['POST'])
 def index():
-    return 'OK'
     print("ok")
+    return 'OK'
 
 @app.route("/callback",methods=['POST'])
 def callback():
   signature = request.headers['X-Line-Signature']
   body = request.get_data(as_text=True)
+  print(body)
   app.logger.info("Request body:"+body)
   try:
     handler.handler(body,signature)
