@@ -12,7 +12,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-@app.route("/index", methods=['GET'])
+@app.route("/index", methods=['POST'])
 def index():
     return render_template("index.html")
     # print("ok")
