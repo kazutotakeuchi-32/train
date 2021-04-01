@@ -1,5 +1,5 @@
 import os
-from flask import Flask,request,abort
+from flask import Flask,request,abort,render_template
 from linebot import (LineBotApi,WebhookHandler)
 from linebot.exceptions import (InvalidSignatureError)
 from linebot.models import(MessageEvent,TextMessage,TextSendMessage)
@@ -12,10 +12,11 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-@app.route("/index", methods=['POST'])
+@app.route("/index", methods=['GET'])
 def index():
-    print("ok")
-    return 'OK'
+    return render_template("index.html")
+    # print("ok")
+    # return 'OK'
 
 @app.route("/callback",methods=['POST'])
 def callback():
