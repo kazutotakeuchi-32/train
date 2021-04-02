@@ -26,7 +26,7 @@ def callback():
   # print(request.headers)
   # print(signature)
   body = request.get_data(as_text=True)
-  print(body)
+  print(body["events"])
   print(body[0])
   return
   # print(body["events"][0]["message"]["text"])
@@ -44,6 +44,8 @@ def callback():
     print("Invalid signature. Please check your channel access token/channel secret .")
     abort(400)
   return 'OK'
+
+  # {"events":[{"type":"message","replyToken":"af122707209a4869a6e05d50b525dabd","source":{"userId":"U61c02d58139dae581af6a27ac9fb2e08","type":"user"},"timestamp":1617361929464,"mode":"active","message":{"type":"text","id":"13823687630049","text":"川崎,東京"}}],"destination":"U60866fe22376585f6868056a9c603d75"}
 
 def get_train_routes(start_station,end_station):
     # 電車の経路情報をスクレイピング
