@@ -43,7 +43,7 @@ def callback():
     abort(400)
   return 'OK'
 
-  def get_train_routes(start_station,end_station):
+def get_train_routes(start_station,end_station):
     # 電車の経路情報をスクレイピング
     # 経路　お金　通過駅
     # return list[str]
