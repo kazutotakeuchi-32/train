@@ -27,26 +27,26 @@ def callback():
   # print(request.headers)
   # print(signature)
   body = request.get_data(as_text=True)
-  # enc = json.dumps(body)
-  dec = json.loads(body)
-  # print(enc[0])
-  # print(dec["events"][0]["message"]['text'])
-  # print(body.events)
-  # print(body[0])
-  # return
-  # print(body["events"][0]["message"]["text"])
-  # print(body["events"])
-  stations=dec["events"][0]["message"]['text'].split(",")
-  print(stations)
-  t_routes=get_train_routes(stations[0],stations[1])
-  # reply_train_routes = ""
-  # for t in range(len(t_routes)):
-  #   reply_train_routes+=""
-  dec["events"][0]["message"]['text'] = t_routes
-  app.logger.info("Request body: " + body)
+  # # enc = json.dumps(body)
+  # dec = json.loads(body)
+  # # print(enc[0])
+  # # print(dec["events"][0]["message"]['text'])
+  # # print(body.events)
+  # # print(body[0])
+  # # return
+  # # print(body["events"][0]["message"]["text"])
+  # # print(body["events"])
+  # stations=dec["events"][0]["message"]['text'].split(",")
+  # print(stations)
+  # t_routes=get_train_routes(stations[0],stations[1])
+  # # reply_train_routes = ""
+  # # for t in range(len(t_routes)):
+  # #   reply_train_routes+=""
+  # dec["events"][0]["message"]['text'] = t_routes
+  # app.logger.info("Request body: " + body)
   try:
     # print(handler.handle(body, signature))
-    handler.handle(dec, signature)
+    handler.handle(body,signature)
   except InvalidSignatureError:
     print("Invalid signature. Please check your channel access token/channel secret .")
     abort(400)
@@ -78,9 +78,12 @@ def get_train_routes(start_station,end_station):
 
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
+  stations=event.message.text.split(",")
+  # stations=dec["events"][0]["message"]['text'].split(",")
+  t_routes=get_train_routes(stations[0],stations[1])
   line_bot_api.reply_message(
     event.reply_token,
-    TextMessage(text=event.message.text)
+    TextMessage(text=t_routes)
     )
 if __name__ == "__main__":
   # app.run()
