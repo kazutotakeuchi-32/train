@@ -30,8 +30,8 @@ def callback():
   body = request.get_data(as_text=True)
   # print(body["events"][0]["message"]["text"])
   print(body[0])
-  print(body["events"])
-  stations=body["events"][0]["message"]["text"].split(",")
+  # print(body["events"])
+  # stations=body["events"][0]["message"]["text"].split(",")
   # return
   t_routes=get_train_routes(stations[0],stations[1])
   # reply_train_routes = ""
