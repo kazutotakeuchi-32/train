@@ -42,16 +42,15 @@ def callback():
   # reply_train_routes = ""
   # for t in range(len(t_routes)):
   #   reply_train_routes+=""
+  dec["events"][0]["message"]['text'] = t_routes
   app.logger.info("Request body: " + body)
   try:
     # print(handler.handle(body, signature))
-    handler.handle(t_routes, signature)
+    handler.handle(dec, signature)
   except InvalidSignatureError:
     print("Invalid signature. Please check your channel access token/channel secret .")
     abort(400)
   return 'OK'
-
-  # {"events":[{"type":"message","replyToken":"af122707209a4869a6e05d50b525dabd","source":{"userId":"U61c02d58139dae581af6a27ac9fb2e08","type":"user"},"timestamp":1617361929464,"mode":"active","message":{"type":"text","id":"13823687630049","text":"川崎,東京"}}],"destination":"U60866fe22376585f6868056a9c603d75"}
 
 def get_train_routes(start_station,end_station):
     # 電車の経路情報をスクレイピング
@@ -73,9 +72,9 @@ def get_train_routes(start_station,end_station):
     # arrive = time[0].select_one('span.mark').text.strip()
     # return soup.select("li").text
     # print(arrive)
+
     arrive=time[2].select_one('span.mark').text.strip()
     return arrive
-
 
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
