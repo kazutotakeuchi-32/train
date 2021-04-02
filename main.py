@@ -29,9 +29,9 @@ def callback():
   print(signature)
   body = request.get_data(as_text=True)
   print(body)
-  return
-  # stations=body.split(",")
-  # t_routes=get_train_routes(stations[0],stations[1])
+  stations=body.text.split(",")
+  # return
+  t_routes=get_train_routes(stations[0],stations[1])
   # reply_train_routes = ""
   # for t in range(len(t_routes)):
   #   reply_train_routes+=""
@@ -66,10 +66,10 @@ def get_train_routes(start_station,end_station):
     print(time)
     # print(soup.select("li"))
     # print('===到着時間抽出===')
-    # arrive = time[0].select_one('span.mark').text.strip()
+    arrive = time[0].select_one('span.mark').text.strip()
     # arrive = time[0].select_one('span.mark').text.strip()
     # return soup.select("li").text
-    # print(arrive)
+    print(arrive)
     # return arrive
 
 
