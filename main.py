@@ -71,10 +71,10 @@ def get_train_routes(start_station,end_station):
     # print(soup.select("li"))
     # print('===到着時間抽出===')
     # arrive = time[0].select_one('span.mark').text.strip()
-    arrive = time[0].select_one('span.mark').text.strip()
+    # arrive = time[0].select_one('span.mark').text.strip()
     # return soup.select("li").text
-    print(arrive)
-    return arrive
+    # print(arrive)
+    # return arrive
 
 
 @handler.add(MessageEvent,message=TextMessage)
