@@ -16,7 +16,8 @@
       }).then(() => { // 初期化完了. 以降はLIFF SDKの各種メソッドを利用できる
       document.querySelector("form").addEventListener("submit",function (e) {
         e.preventDefault()
-        alert("test")
+        // alert("test")
+        alert(e.target.value)
         const startStation = e.target.value.start_station
         const endStation = e.target.value.end_station
         const sendValue = `${startStation},${endStation}`
