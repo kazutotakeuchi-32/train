@@ -29,8 +29,8 @@ def callback():
   body = request.get_data(as_text=True)
   enc = json.dumps(body)
   dec = json.loads(enc)
-  print(enc["events"])
-  print(dec["events"])
+  print(enc[0])
+  print(dec[0])
   # print(body.events)
   # print(body[0])
   return
