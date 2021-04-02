@@ -6,6 +6,7 @@ from linebot.models import(MessageEvent,TextMessage,TextSendMessage)
 import urllib.request
 from bs4 import BeautifulSoup
 import urllib.parse
+import json
 
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 YOUR_CHANNEL_ACCESS_TOKEN= os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
@@ -26,8 +27,11 @@ def callback():
   # print(request.headers)
   # print(signature)
   body = request.get_data(as_text=True)
-  print(body.events)
-  print(body[0])
+  enc = json.dumps(body)
+  dec = json.loads(enc)
+  print(dec["events"])
+  # print(body.events)
+  # print(body[0])
   return
   # print(body["events"][0]["message"]["text"])
   # print(body["events"])
