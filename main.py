@@ -29,7 +29,7 @@ def callback():
   body = request.get_data(as_text=True)
   enc = json.dumps(body)
   dec = json.loads(enc)
-  print(dec["events"])
+  print(enc)
   # print(body.events)
   # print(body[0])
   return
