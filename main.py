@@ -30,7 +30,7 @@ def callback():
   # enc = json.dumps(body)
   dec = json.loads(body)
   # print(enc[0])
-  print(dec.events)
+  print(dec["events"])
   # print(body.events)
   # print(body[0])
   return
