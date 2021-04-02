@@ -28,7 +28,7 @@ def callback():
   print(request.headers)
   print(signature)
   body = request.get_data(as_text=True)
-  print(body["events"][0]["message"]["text"])
+  # print(body["events"][0]["message"]["text"])
   stations=body["events"][0]["message"]["text"].split(",")
   # return
   t_routes=get_train_routes(stations[0],stations[1])
