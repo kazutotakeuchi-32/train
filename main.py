@@ -43,28 +43,28 @@ def callback():
     abort(400)
   return 'OK'
 
-def　get_train_routes(start_station,end_station):
-  # 電車の経路情報をスクレイピング
-  # 経路　お金　通過駅
-  # return list[str]
-  startstaen = urllib.parse.quote(start_station)
-  endstaen = urllib.parse.quote(end_station)
+  def get_train_routes(start_station,end_station):
+    # 電車の経路情報をスクレイピング
+    # 経路　お金　通過駅
+    # return list[str]
+    startstaen = urllib.parse.quote(start_station)
+    endstaen = urllib.parse.quote(end_station)
 
-  url0 = 'https://transit.yahoo.co.jp/search/result?from='
-  url1 = '&flatlon=&to='
-  url2 = '&viacode=&viacode=&viacode=&shin=&ex=&hb=&al=&lb=&sr=&type=1&ws=3&s=&ei=&fl=1&tl=3&expkind=1&ticket=ic&mtf=1&userpass=0&detour_id=&fromgid=&togid=&kw='
+    url0 = 'https://transit.yahoo.co.jp/search/result?from='
+    url1 = '&flatlon=&to='
+    url2 = '&viacode=&viacode=&viacode=&shin=&ex=&hb=&al=&lb=&sr=&type=1&ws=3&s=&ei=&fl=1&tl=3&expkind=1&ticket=ic&mtf=1&userpass=0&detour_id=&fromgid=&togid=&kw='
 
-  url = url0 + startstaen + url1 + endstaen + url2 + endstaen
+    url = url0 + startstaen + url1 + endstaen + url2 + endstaen
 
-  req = urllib.request.urlopen(url)
-  html = req.read().decode('utf-8')
-  soup = BeautifulSoup(html,'html.parser')
+    req = urllib.request.urlopen(url)
+    html = req.read().decode('utf-8')
+    soup = BeautifulSoup(html,'html.parser')
 
-  time = soup.select("li.time")
-  print(soup.select("li"))
-  # print('===到着時間抽出===')
-  arrive = time[2].select_one('span.mark').text.strip()
-  return arrive
+    time = soup.select("li.time")
+    print(soup.select("li"))
+    # print('===到着時間抽出===')
+    arrive = time[2].select_one('span.mark').text.strip()
+    return arrive
 
 
 
