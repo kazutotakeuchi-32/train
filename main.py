@@ -36,8 +36,9 @@ def callback():
   return
   # print(body["events"][0]["message"]["text"])
   # print(body["events"])
-  # stations=body["events"][0]["message"]["text"].split(",")
-  # t_routesc=get_train_routes(stations[0],stations[1])
+  stations=dec["events"][0]["message"]["text"].split(",")
+  print(stations)
+  t_routesc=get_train_routes(stations[0],stations[1])
   # reply_train_routes = ""
   # for t in range(len(t_routes)):
   #   reply_train_routes+=""
