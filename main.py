@@ -26,7 +26,7 @@ def callback():
   # print(request.headers)
   # print(signature)
   body = request.get_data(as_text=True)
-  print(body["events"])
+  print(body.events)
   print(body[0])
   return
   # print(body["events"][0]["message"]["text"])
