@@ -29,7 +29,7 @@ def callback():
   print(signature)
   body = request.get_data(as_text=True)
   stations=body.split(",")
-  t_routes=get_train_routes(start_station[0],start_station[1])
+  t_routes=get_train_routes(stations[0],stations[1])
   # reply_train_routes = ""
   # for t in range(len(t_routes)):
   #   reply_train_routes+=""
