@@ -18,34 +18,12 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 @app.route("/index", methods=['GET'])
 def index():
     return render_template("index.html")
-    #print("ok")
-    # return 'OK'
 
 @app.route("/callback",methods=['POST'])
 def callback():
   signature = request.headers['X-Line-Signature']
-  # print(request.headers)
-  # print(signature)
   body = request.get_data(as_text=True)
-  # # enc = json.dumps(body)
-  # dec = json.loads(body)
-  # # print(enc[0])
-  # # print(dec["events"][0]["message"]['text'])
-  # # print(body.events)
-  # # print(body[0])
-  # # return
-  # # print(body["events"][0]["message"]["text"])
-  # # print(body["events"])
-  # stations=dec["events"][0]["message"]['text'].split(",")
-  # print(stations)
-  # t_routes=get_train_routes(stations[0],stations[1])
-  # # reply_train_routes = ""
-  # # for t in range(len(t_routes)):
-  # #   reply_train_routes+=""
-  # dec["events"][0]["message"]['text'] = t_routes
-  # app.logger.info("Request body: " + body)
   try:
-    # print(handler.handle(body, signature))
     handler.handle(body,signature)
   except InvalidSignatureError:
     print("Invalid signature. Please check your channel access token/channel secret .")
@@ -65,27 +43,52 @@ def get_train_routes(start_station,end_station):
     req = urllib.request.urlopen(url)
     html = req.read().decode('utf-8')
     soup = BeautifulSoup(html,'html.parser')
-    time = soup.select("li.time")
-    # print(soup.select("li"))
-    # print('===到着時間抽出===')
-    # arrive = time[0].select_one('span.mark').text.strip()
-    # arrive = time[0].select_one('span.mark').text.strip()
-    # return soup.select("li").text
-    # print(arrive)
+    srline = soup.select("div.elmRouteDetail")
+    station=srline[0].select("div#route01 div.routeDetail  div.station")
+    fare_section=srline[0].select("div#route01 div.routeDetail div.fareSection")[0]
+    fareSection=fare_section.select("div ul li.transport div ")
+    send_texts = []
+    for i in range(len(srline[0].select("div#route01 div.routeDetail  div.station"))):
+      time=station[i].select("ul.time  li")
+      time_str = ""
+      for j in range(len(time)):
+        time_str += time[j].get_text()
+      send_texts.append("{}{}".format(station[i].select_one("dl  dt").get_text(),time_str))
+    fareSection=fare_section.select("div ul li.transport div ")
+    far=fare_section.select("div ul  li.platform")
+    # print(far[0].get_text())
+    for k in range(len(fareSection)):
+      send_texts[k]=send_texts[k]+re.sub("\[train\]","",fareSection[k].get_text())
+    for l in range(len(far)):
+      send_texts[l]=send_texts[l]+far[l].get_text()
+    # print(send_texts)
+      # print(fareSection[0].select("ul  li.platform"))
+    send_text=""
+    for i in range(len(send_texts)):
+      send_text+=send_texts[i]+"\n"
 
-    arrive=time[2].select_one('span.mark').text.strip()
-    return arrive
+    return "{}駅->{}駅区間{}{}\n{}\n{}\n走行距離:{}\n{} ".format(
+      start_station,
+      end_station,
+      srline[0].select_one("div#route01 dl dt").get_text(),
+      srline[0].select_one("div#route01  dl  dd:nth-child(2)  ul  li.time").get_text(),
+      re.sub("\[priic\]","",srline[0].select_one("div#route01  dl  dd:nth-child(2)  ul  li.fare").get_text()),
+      srline[0].select_one("div#route01 dd li.transfer").get_text(),
+      srline[0].select_one("div#route01 dd li.distance").get_text(),
+      send_text
+    )
+    # time = soup.select("li.time")
+    # arrive=time[2].select_one('span.mark').text.strip()
+    # return arrive
 
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   stations=event.message.text.split(",")
-  # stations=dec["events"][0]["message"]['text'].split(",")
   t_routes=get_train_routes(stations[0],stations[1])
   line_bot_api.reply_message(
     event.reply_token,
     TextMessage(text=t_routes)
     )
 if __name__ == "__main__":
-  # app.run()
   port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)

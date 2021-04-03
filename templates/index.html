@@ -14,7 +14,7 @@
       // 自分のLIFF ID（URLから『https://liff.line.me/』を除いた文字列）を入力する
       liffId: "1655819346-pWjonr1K"
       }).then(() => {
-      // 初期化完了. 以降はLIFF SDKの各種メソッドを利用できる
+      // 初期化完了. 以降はLIFF SDK の各種メソッドを利用できる
       document.querySelector("form").addEventListener("submit",function (e) {
         e.preventDefault()
         const startStation=  document.querySelector("#start_station").value
@@ -34,7 +34,7 @@
             console.log('error', err);
           });
               })
-        })
+      })
   </script>
   <form action="">
     <label for="start_station">
