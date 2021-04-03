@@ -73,37 +73,6 @@ def get_train_routes(start_station,end_station):
       srline[0].select_one("div#route01 dd li.distance").get_text(),
       send_text.lstrip()
     )
-
-    # station=srline[0].select("div#route01 div.routeDetail  div.station")
-    # fare_section=srline[0].select("div#route01 div.routeDetail div.fareSection")[0]
-    # fareSection=fare_section.select("div ul li.transport div ")
-    # send_texts = []
-    # for i in range(len(srline[0].select("div#route01 div.routeDetail  div.station"))):
-    #   time=station[i].select("ul.time  li")
-    #   time_str = ""
-    #   for j in range(len(time)):
-    #     time_str += time[j].get_text()
-    #   send_texts.append("{}{}".format(station[i].select_one("dl  dt").get_text(),time_str))
-    # fareSection=fare_section.select("div ul li.transport div ")
-    # far=fare_section.select("div ul  li.platform")
-    # for k in range(len(fareSection)):
-    #   send_texts[k]=send_texts[k]+re.sub("\[train\]","",fareSection[k].get_text())
-    # for l in range(len(far)):
-    #   send_texts[l]=send_texts[l]+far[l].get_text()
-    # send_text=""
-    # for i in range(len(send_texts)):
-    #   send_text+=send_texts[i]+"\n"
-
-    # return "{}駅->{}駅区間{}{}\n{}\n{}\n走行距離:{}\n{} ".format(
-    #   start_station,
-    #   end_station,
-    #   srline[0].select_one("div#route01 dl dt").get_text(),
-    #   srline[0].select_one("div#route01  dl  dd:nth-child(2)  ul  li.time").get_text(),
-    #   re.sub("\[priic\]","",srline[0].select_one("div#route01  dl  dd:nth-child(2)  ul  li.fare").get_text()),
-    #   srline[0].select_one("div#route01 dd li.transfer").get_text(),
-    #   srline[0].select_one("div#route01 dd li.distance").get_text(),
-    #   send_text
-    # )
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   stations=event.message.text.split(",")
