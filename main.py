@@ -7,6 +7,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import urllib.parse
 import json
+import re
 
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 YOUR_CHANNEL_ACCESS_TOKEN= os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
