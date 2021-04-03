@@ -57,13 +57,10 @@ def get_train_routes(start_station,end_station):
       send_texts.append("{}{}".format(station[i].select_one("dl  dt").get_text(),time_str))
     fareSection=fare_section.select("div ul li.transport div ")
     far=fare_section.select("div ul  li.platform")
-    # print(far[0].get_text())
     for k in range(len(fareSection)):
       send_texts[k]=send_texts[k]+re.sub("\[train\]","",fareSection[k].get_text())
     for l in range(len(far)):
       send_texts[l]=send_texts[l]+far[l].get_text()
-    # print(send_texts)
-      # print(fareSection[0].select("ul  li.platform"))
     send_text=""
     for i in range(len(send_texts)):
       send_text+=send_texts[i]+"\n"
@@ -78,10 +75,6 @@ def get_train_routes(start_station,end_station):
       srline[0].select_one("div#route01 dd li.distance").get_text(),
       send_text
     )
-    # time = soup.select("li.time")
-    # arrive=time[2].select_one('span.mark').text.strip()
-    # return arrive
-
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   stations=event.message.text.split(",")
@@ -89,7 +82,7 @@ def handler_message(event):
   line_bot_api.reply_message(
     event.reply_token,
     TextMessage(text=t_routes)
-    )
+  )
 if __name__ == "__main__":
   port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)
