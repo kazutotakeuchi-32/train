@@ -41,18 +41,14 @@ def get_train_routes(start_station,end_station):
     url1 = '&tlatlon=&togid=&to='
     url2 = '&viacode=&via=&viacode=&via=&viacode=&via=&y=&m=&d=&hh&m=&m1=&type=1&ticket=ic&expkind=1&ws=3&s=0&al=1&shin=1&ex=1&hb=1&lb=1&sr=1&kw='
     url = url0 + startstaen + url1 + endstaen + url2 + endstaen
-
     req = urllib.request.urlopen(url)
     html = req.read().decode('utf-8')
     soup = BeautifulSoup(html,'html.parser')
     time = soup.select("li.time")
-
-
     srline = soup.select("div.elmRouteDetail")
     routes = []
     i=0
     output=""
-
     while srline[0].select("div#route0{}".format(i+1) )!= [] :
       routes.append(srline[0].select("div#route0{}".format(i+1)))
       i+=1
@@ -84,43 +80,6 @@ def get_train_routes(start_station,end_station):
       send_text.lstrip()
       )
     return "******{}駅->{}駅区間******".format(start_station,end_station)+output
-
-    # url0 = 'https://transit.yahoo.co.jp/search/result?from='
-    # url1 = '&flatlon=&to='
-    # url2 = '&viacode=&viacode=&viacode=&shin=&ex=&hb=&al=&lb=&sr=&type=1&ws=3&s=&ei=&fl=1&tl=3&expkind=1&ticket=ic&mtf=1&userpass=0&detour_id=&fromgid=&togid=&kw='
-    # url = url0 + startstaen + url1 + endstaen + url2 + endstaen
-    # req = urllib.request.urlopen(url)
-    # html = req.read().decode('utf-8')
-    # soup = BeautifulSoup(html,'html.parser')
-    # srline = soup.select("div.elmRouteDetail")
-    # station=srline[0].select("div#route01 div.routeDetail  div.station")
-    # fare=srline[0].select("div#route01 div.routeDetail div.fareSection")[0]
-    # fare_section = srline[0].select("div#route01 div.routeDetail div.access div ")
-    # send_texts = []
-    # for i in range(len(srline[0].select("div#route01 div.routeDetail  div.station"))):
-    #   time=station[i].select("ul.time  li")
-    #   time_str = ""
-    #   for j in range(len(time)):
-    #     time_str += time[j].get_text()
-    #   send_texts.append("{} {}".format(station[i].select_one("dl  dt").get_text().strip(),time_str.strip()))
-    # far=fare.select("div ul li.platform")
-    # for k in range(len(fare_section)):
-    #   send_texts[k]=send_texts[k]+re.sub("(\[train\]||\[walk\])","",fare_section[k].get_text())
-    # for l in range(len(far)):
-    #   send_texts[l]=send_texts[l]+far[l].get_text()+"\n"
-    # send_text=""
-    # for i in range(len(send_texts)):
-    #   send_text+=send_texts[i]
-    # return"{}駅->{}駅区間{}{}\n{}\n{}\n走行距離:{}\n-----------経路情報----------\n{}\n-----------------------------".format(
-    #   start_station,
-    #   end_station,
-    #   srline[0].select_one("div#route01 dl dt").get_text(),
-    #   srline[0].select_one("div#route01  dl  dd:nth-child(2)  ul  li.time").get_text(),
-    #   re.sub("\[priic\]","",srline[0].select_one("div#route01  dl  dd:nth-child(2)  ul  li.fare").get_text()),
-    #   srline[0].select_one("div#route01 dd li.transfer").get_text(),
-    #   srline[0].select_one("div#route01 dd li.distance").get_text(),
-    #   send_text.lstrip()
-    # )
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   stations=event.message.text.split(",")
