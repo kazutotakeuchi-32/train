@@ -76,7 +76,7 @@ def get_train_routes(start_station,end_station):
       for k in range(len(fare_section)):
         send_texts[k]=send_texts[k]+re.sub("(\[train\]||\[walk\])","",fare_section[k].get_text())
       for l in range(len(far)):
-        send_texts[l]=send_texts[l]+far[l].get_text()+"\n"
+        send_texts[l]=send_texts[l]+far[l].get_text()
       send_text=""
       for i in range(len(send_texts)):
         send_text+=send_texts[i]
