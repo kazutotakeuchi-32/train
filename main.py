@@ -89,10 +89,9 @@ def get_train_routes(start_station,end_station):
       send_text.lstrip()
       )
     return "******{}駅->{}駅区間******".format(start_station,end_station)+output
-@handler.add(MessageEvent,message=TextMessage)
-def handler_message(event):
-  # stations=event.message.text.split(",")
-  buttons_template_message = TemplateSendMessage(
+
+def buttons_template_message():
+   return TemplateSendMessage(
     alt_text='Buttons template',
     template=ButtonsTemplate(
         thumbnail_image_url='https://example.com/image.jpg',
@@ -115,13 +114,38 @@ def handler_message(event):
         ]
     )
   )
-  # t_routes=get_train_routes(stations[0],stations[1])
-  line_bot_api.reply_message(
-    event.reply_token,
-    buttons_template_message
-    # TextMessage(text=t_routes)
-  )
 
+@handler.add(MessageEvent,message=TextMessage)
+def handler_message(event):
+  text=event.message.text
+  if len(text.split(","))>=2:
+    stations=text.split(",")
+    t_routes=get_train_routes(stations[0],stations[1])
+    line_bot_api.reply_message(
+      event.reply_token,
+      TextMessage(text=t_routes)
+    )
+  elif text=="遅延情報":
+    ""
+    line_bot_api.reply_message(
+      event.reply_token,
+      # buttons_template_message
+      TextMessage(text="遅延情報")
+    )
+  elif text=="駅情報":
+    ""
+    line_bot_api.reply_message(
+      event.reply_token,
+      # buttons_template_message
+       TextMessage(text="駅情報")
+    )
+  else :
+    message =  "無効な値が入力されました。"
+    line_bot_api.reply_message(
+      event.reply_token,
+      # buttons_template_message
+       TextMessage(text=message)
+    )
 if __name__ == "__main__":
   port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)
