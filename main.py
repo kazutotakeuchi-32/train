@@ -71,7 +71,7 @@ def get_train_routes(start_station,end_station):
         time_str = ""
         for j in range(len(time)):
           time_str += time[j].get_text()
-        send_texts.append("\n{}{}".format(station[i].select_one("dl  dt").get_text().strip(),time_str.strip()))
+        send_texts.append("\n{}.{}{}".format(i+1,station[i].select_one("dl  dt").get_text().strip(),time_str.strip()))
       far=fare.select("div ul li.platform")
       for k in range(len(fare_section)):
         send_texts[k]=send_texts[k]+re.sub("(\[train\]||\[walk\])","",fare_section[k].get_text())
@@ -81,12 +81,12 @@ def get_train_routes(start_station,end_station):
       for i in range(len(send_texts)):
         send_text+=send_texts[i]
       output+="{}{}\n{}\n{}\n走行距離:{}\n-----------経路情報----------\n{}\n-----------------------------".format(
-      routes[s][0].select_one(" dl dt").get_text(),
-      routes[s][0].select_one(" dl  dd:nth-child(2)  ul  li.time").get_text(),
-      re.sub("\[priic\]","",routes[s][0].select_one("dl  dd:nth-child(2)  ul  li.fare").get_text()),
-      routes[s][0].select_one("dd li.transfer").get_text(),
-      routes[s][0].select_one("dd li.distance").get_text(),
-      send_text.lstrip()
+        routes[s][0].select_one(" dl dt").get_text(),
+        routes[s][0].select_one(" dl  dd:nth-child(2)  ul  li.time").get_text(),
+        re.sub("\[priic\]","",routes[s][0].select_one("dl  dd:nth-child(2)  ul  li.fare").get_text()),
+        routes[s][0].select_one("dd li.transfer").get_text(),
+        routes[s][0].select_one("dd li.distance").get_text(),
+        send_text.lstrip()
       )
     return "******{}駅->{}駅区間******".format(start_station,end_station)+output
 
