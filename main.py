@@ -71,7 +71,7 @@ def get_train_routes(start_station,end_station):
         time_str = ""
         for j in range(len(time)):
           time_str += time[j].get_text()
-        send_texts.append("\n{}.{}{}".format(i+1,station[i].select_one("dl  dt").get_text().strip(),time_str.strip()))
+        send_texts.append("\n[{}]{}{}".format(i+1,station[i].select_one("dl  dt").get_text().strip(),time_str.strip()))
       far=fare.select("div ul li.platform")
       for k in range(len(fare_section)):
         send_texts[k]=send_texts[k]+re.sub("(\[train\]||\[walk\])","",fare_section[k].get_text())
