@@ -82,7 +82,7 @@ def get_train_routes(start_station,end_station):
     return "******{}駅->{}駅区間******".format(start_station,end_station)+output
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
-  stations=event.message.text.split(",")
+  # stations=event.message.text.split(",")
   buttons_template_message = TemplateSendMessage(
     alt_text='Buttons template',
     template=ButtonsTemplate(
