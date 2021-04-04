@@ -88,7 +88,7 @@ def get_train_routes(start_station,end_station):
         routes[s][0].select_one("dd li.distance").get_text(),
         send_text.lstrip()
       )
-    return "******{}駅ー{}駅区間******".format(start_station,end_station)+output
+    return "******{}駅-{}駅区間******".format(start_station,end_station)+output
 
 def buttons_template_message():
    return TemplateSendMessage(
