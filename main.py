@@ -115,7 +115,7 @@ def handler_message(event):
         ]
     )
   )
-  t_routes=get_train_routes(stations[0],stations[1])
+  # t_routes=get_train_routes(stations[0],stations[1])
   line_bot_api.reply_message(
     event.reply_token,
     buttons_template_message
