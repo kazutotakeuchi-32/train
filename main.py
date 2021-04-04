@@ -34,7 +34,7 @@ def callback():
 def get_train_routes(start_station,end_station):
     # 電車の経路情報をスクレイピング
     # 経路　お金　通過駅
-    # return list[str]
+    # return str
     startstaen = urllib.parse.quote(start_station)
     endstaen = urllib.parse.quote(end_station)
     url0 = 'https://transit.yahoo.co.jp/search/result?from='
@@ -83,11 +83,36 @@ def get_train_routes(start_station,end_station):
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   stations=event.message.text.split(",")
+  buttons_template_message = TemplateSendMessage(
+    alt_text='Buttons template',
+    template=ButtonsTemplate(
+        thumbnail_image_url='https://example.com/image.jpg',
+        title='Menu',
+        text='Please select',
+        actions=[
+            PostbackAction(
+                label='postback',
+                display_text='postback text',
+                data='action=buy&itemid=1'
+            ),
+            MessageAction(
+                label='message',
+                text='message text'
+            ),
+            URIAction(
+                label='uri',
+                uri='http://example.com/'
+            )
+        ]
+    )
+  )
   t_routes=get_train_routes(stations[0],stations[1])
   line_bot_api.reply_message(
     event.reply_token,
-    TextMessage(text=t_routes)
+    buttons_template_message
+    # TextMessage(text=t_routes)
   )
+
 if __name__ == "__main__":
   port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)
