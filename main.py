@@ -11,7 +11,8 @@ from linebot.models import(
   PostbackAction,
   MessageAction,
   URIAction,
-  ImageSendMessage
+  ImageSendMessage,
+  ImageMessage
 )
 import urllib.request
 from bs4 import BeautifulSoup
@@ -141,7 +142,9 @@ def handler_message(event):
   elif text=="駅情報":
     line_bot_api.reply_message(
       event.reply_token,
-      image_message()
+      ImageMessage(image_message())
+      # https://api.mapbox.com/styles/v1/yahoojapan/ck353yf380a0k1cmcdx7jc1xq/static/url-https%3A%2F%2Fs.yimg.jp%2Fimages%2Ftransit%2Fpc%2Fv2%2Fimg%2Fmap%2FpinSpot.png(139.69686160004,35.531421503894)/139.69686160004,35.531421503894,16/615x200@2x?access_token=pk.eyJ1IjoieWFob29qYXBhbiIsImEiOiJjazY3Zmw5Z2MwN3Y3M2ttem4xcXhsZnJzIn0.dxIZU7D4wqvqm9o8pUlKjg&amp;logo=false
+
     )
   else :
     message =  "無効な値が入力されました。"
