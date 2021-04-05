@@ -10,7 +10,8 @@ from linebot.models import(
   ButtonsTemplate,
   PostbackAction,
   MessageAction,
-  URIAction
+  URIAction,
+  ImageSendMessage
 )
 import urllib.request
 from bs4 import BeautifulSoup
@@ -19,7 +20,7 @@ import json
 import re
 
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
-YOUR_CHANNEL_ACCESS_TOKEN= os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
+YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
@@ -115,6 +116,12 @@ def buttons_template_message():
     )
   )
 
+def image_message():
+  return  ImageSendMessage(
+    original_content_url='https://example.com/original.jpg',
+    preview_image_url='https://example.com/preview.jpg'
+  )
+
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   text=event.message.text
@@ -129,23 +136,21 @@ def handler_message(event):
     ""
     line_bot_api.reply_message(
       event.reply_token,
-      # buttons_template_message
       TextMessage(text="遅延情報")
     )
   elif text=="駅情報":
-    ""
+
     line_bot_api.reply_message(
       event.reply_token,
-      # buttons_template_message
-       TextMessage(text="駅情報")
+      image_message()
     )
   else :
     message =  "無効な値が入力されました。"
     line_bot_api.reply_message(
       event.reply_token,
-      # buttons_template_message
-       TextMessage(text=message)
+      TextMessage(text=message)
     )
+
 if __name__ == "__main__":
   port = int(os.getenv("PORT", 5000))
   app.run(host="0.0.0.0", port=port)
