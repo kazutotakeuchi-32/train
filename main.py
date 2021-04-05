@@ -118,8 +118,8 @@ def buttons_template_message():
 
 def image_message():
   return  ImageSendMessage(
-    original_content_url='https://example.com/original.jpg',
-    preview_image_url='https://example.com/preview.jpg'
+    original_content_url="https://map.yahoo.co.jp/maps?z=18&amp;lat=35.531421503894&amp;lon=139.69686160004&amp;type=scroll&amp;ei=utf-8&amp;mode=map",
+    preview_image_url="https://map.yahoo.co.jp/maps?z=18&amp;lat=35.531421503894&amp;lon=139.69686160004&amp;type=scroll&amp;ei=utf-8&amp;mode=map"
   )
 
 @handler.add(MessageEvent,message=TextMessage)
@@ -139,7 +139,6 @@ def handler_message(event):
       TextMessage(text="遅延情報")
     )
   elif text=="駅情報":
-
     line_bot_api.reply_message(
       event.reply_token,
       image_message()
