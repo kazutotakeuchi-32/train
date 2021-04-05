@@ -118,10 +118,8 @@ def buttons_template_message():
 
 def image_message():
   return  ImageSendMessage(
-    original_content_url="https://api.mapbox.com/styles/v1/yahoojapan/ck353yf380a0k1cmcdx7jc1xq/static/url-https%3A%2F%2Fs.yimg.jp%2Fimages%2Ftransit%2Fpc%2Fv2%2Fimg%2Fmap%2FpinSpot.png(139.69686160004,35.531421503894)/139.69686160004,35.531421503894,16/615x200@2x?access_token=pk.eyJ1IjoieWFob29qYXBhbiIsImEiOiJjazY3Zmw5Z2MwN3Y3M2ttem4xcXhsZnJzIn0.dxIZU7D4wqvqm9o8pUlKjg&logo=false
-",
-    preview_image_url="https://api.mapbox.com/styles/v1/yahoojapan/ck353yf380a0k1cmcdx7jc1xq/static/url-https%3A%2F%2Fs.yimg.jp%2Fimages%2Ftransit%2Fpc%2Fv2%2Fimg%2Fmap%2FpinSpot.png(139.69686160004,35.531421503894)/139.69686160004,35.531421503894,16/615x200@2x?access_token=pk.eyJ1IjoieWFob29qYXBhbiIsImEiOiJjazY3Zmw5Z2MwN3Y3M2ttem4xcXhsZnJzIn0.dxIZU7D4wqvqm9o8pUlKjg&logo=false
-"
+    original_content_url =  "https://api.mapbox.com/styles/v1/yahoojapan/ck353yf380a0k1cmcdx7jc1xq/static/url-https%3A%2F%2Fs.yimg.jp%2Fimages%2Ftransit%2Fpc%2Fv2%2Fimg%2Fmap%2FpinSpot.png(139.69686160004,35.531421503894)/139.69686160004,35.531421503894,16/615x200@2x?access_token=pk.eyJ1IjoieWFob29qYXBhbiIsImEiOiJjazY3Zmw5Z2MwN3Y3M2ttem4xcXhsZnJzIn0.dxIZU7D4wqvqm9o8pUlKjg&logo=false",
+    preview_image_url    =  "https://api.mapbox.com/styles/v1/yahoojapan/ck353yf380a0k1cmcdx7jc1xq/static/url-https%3A%2F%2Fs.yimg.jp%2Fimages%2Ftransit%2Fpc%2Fv2%2Fimg%2Fmap%2FpinSpot.png(139.69686160004,35.531421503894)/139.69686160004,35.531421503894,16/615x200@2x?access_token=pk.eyJ1IjoieWFob29qYXBhbiIsImEiOiJjazY3Zmw5Z2MwN3Y3M2ttem4xcXhsZnJzIn0.dxIZU7D4wqvqm9o8pUlKjg&logo=false"
   )
 
 @handler.add(MessageEvent,message=TextMessage)
