@@ -14,14 +14,18 @@ from linebot.models import(
   ImageSendMessage,
   ImageMessage
 )
-import urllib.request
 from bs4 import BeautifulSoup
 import urllib.parse
 import json
 import re
+from urllib.request import Request, urlopen
+import glob
+import os
+
 
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
+MAPBOX_ACCESS_TOKEN= os.environ["MAPBOX_ACCESS_TOKEN"]
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
@@ -30,7 +34,6 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 @app.route("/index", methods=['GET'])
 def index():
     return render_template("index.html")
-
 
 @app.route("/callback",methods=['POST'])
 def callback():
@@ -93,6 +96,42 @@ def get_train_routes(start_station,end_station):
       )
     return "******{}駅-{}駅区間******".format(start_station,end_station)+output
 
+def get_station_equipment(station_name):
+  startstaen = urllib.parse.quote(station_name)
+  domain ="https://transit.yahoo.co.jp/"
+  url = domain+"station/search?q={}".format(startstaen)
+  req = urllib.request.urlopen(url)
+  html = req.read().decode('utf-8')
+  ary =[]
+  soup = BeautifulSoup(html,'html.parser')
+  station = soup.select("#mdSearchResult  ul:nth-child(3)")
+  sn = station[0].select("ul li")
+  for s in range(len(sn)):
+    href = sn[s].find("a").get('href')
+    url1 = domain+href
+    req = urllib.request.urlopen(url1)
+    html1 = req.read().decode('utf-8')
+    soup1=BeautifulSoup(html1,"html.parser")
+    hrefs=re.sub("(\(||\))","",re.search('\([\d.,]*\)',soup1.select("#mdStaAreaMap  div.elmAreaMap img ")[0].get("src")).group()).split(",")
+    ary.append(["https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/{},{},15.00,0,0/600x600@2x?".format(hrefs[0],hrefs[1])])
+    ary[s].append(soup1.select("#main  div.mainWrp  div.labelLarge  h1")[0].get_text())
+    titles= soup1.select("#mdStaEquip ul.elmStaItem li div h3")
+    title=""
+    for t in range(len(titles)):
+      title+=titles[t].get_text()+" "
+    ary[s].append(title)
+    contents = soup1.select("#mdStaEquip  ul.elmStaItem li  p")
+    href=soup1.select_one("#mdStaEquip  ul ul  li  a")
+    content = ""
+    for c in range(len(contents)):
+      content+= contents[c].get_text()+ "separation"
+    if href!=None:
+      ary[s].append(content+"\n"+str(href.get_text())+"separation")
+    else:
+      ary[s].append(content)
+  return ary
+
+
 def buttons_template_message():
    return TemplateSendMessage(
     alt_text='Buttons template',
@@ -118,14 +157,12 @@ def buttons_template_message():
     )
   )
 
-def image_message():
-  print(url_for('static', filename='train.png') )
+def image_message(image_url):
   return  ImageSendMessage(
-    # original_content_url =  "http://train10.herokuapp.com"+url_for('static', filename='train.png') ,
-    # preview_image_url    =  "http://train10.herokuapp.com"+url_for('static', filename='train.png')
-    original_content_url =  "https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/139.69686160004,35.531421503894,15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false" ,
-    preview_image_url    =  "https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/139.69686160004,35.531421503894,15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false"
+    original_content_url =  image_url ,
+    preview_image_url    =  image_url
   )
+
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   text=event.message.text
@@ -137,16 +174,29 @@ def handler_message(event):
       TextMessage(text=t_routes)
     )
   elif text=="遅延情報":
-    ""
     line_bot_api.reply_message(
       event.reply_token,
       TextMessage(text="遅延情報")
     )
   elif text=="駅情報":
-    line_bot_api.reply_message(
-      event.reply_token,
-      image_message()
-    )
+    ary=get_station_equipment("川崎")
+    for i in range(len(ary)):
+      image_url="{}access_token={}&logo=false".format(ary[i][0],MAPBOX_ACCESS_TOKEN)
+      line_bot_api.reply_message(
+        event.reply_token,
+        image_message(image_url)
+      )
+      station_name=ary[i][1]
+      titles = ary[i][2].split(" ")[:-1]
+      contents=ary[i][3].split("separation")[:-1]
+      output=""
+      for j in range(len(titles)):
+        output+= "{}{}".format(titles[j],contents[j])
+      line_bot_api.reply_message(
+        event.reply_token,
+        TextMessage(text="------------------------\n{}\n{}\n-----------------------".format(station_name,output))
+      )
+
   else :
     message =  "無効な値が入力されました。"
     line_bot_api.reply_message(
