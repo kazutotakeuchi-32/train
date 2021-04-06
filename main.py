@@ -193,8 +193,8 @@ def handler_message(event):
       output=""
       for j in range(len(titles)):
         output+= "{}{}".format(titles[j],contents[j])
-      text="------------------------\n{}\n{}\n-----------------------".format(station_name,output)
-      # line_bot_api.push_message(user.user_id, messages=image_url)
+      text=TextSendMessage(text="------------------------\n{}\n{}\n-----------------------".format(station_name,output))
+      line_bot_api.push_message(user.user_id, messages=image_message(image_url))
       line_bot_api.push_message(user.user_id, messages=text)
       # line_bot_api.reply_message(
       #   event.reply_token,
