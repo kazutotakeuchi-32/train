@@ -121,8 +121,10 @@ def buttons_template_message():
 def image_message():
   print(url_for('static', filename='train.png') )
   return  ImageSendMessage(
-    original_content_url =  "http://train10.herokuapp.com"+url_for('static', filename='train.png') ,
-    preview_image_url    =  "http://train10.herokuapp.com"+url_for('static', filename='train.png')
+    # original_content_url =  "http://train10.herokuapp.com"+url_for('static', filename='train.png') ,
+    # preview_image_url    =  "http://train10.herokuapp.com"+url_for('static', filename='train.png')
+    original_content_url =  "https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/139.69686160004,35.531421503894,15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false" ,
+    preview_image_url    =  "https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/139.69686160004,35.531421503894,15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false"
   )
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):

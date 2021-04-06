@@ -40,14 +40,15 @@ for s in range(len(sn)):
 
 for i in range(len(ary)):
   print(ary[i][0],ary[i][1])
-  req=Request("https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/{},{},15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false".format(ary[i][0],ary[i][1]))
-  with urlopen(req) as res:
-    with open ('./static/map{}.png'.format(i+1), mode='wb') as file:
-      file.write(res.read())
-file_list = glob.glob("./static/map*png")
-for file in file_list:
-    print("remove：{0}".format(file))
-    os.remove(file)
+  # req=Request("https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/{},{},15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false".format(ary[i][0],ary[i][1]))
+  print("https://api.mapbox.com/styles/v1/kazutotakeuchi/ckn4mtjoq0sv117t4g2ul8tn6/static/{},{},15.00,0,0/600x600@2x?access_token=pk.eyJ1Ijoia2F6dXRvdGFrZXVjaGkiLCJhIjoiY2tuNGdtMm9kMWc5aDJ2bHI5OXdxZGdrbiJ9.wcgOy_qruX8ATSmGS3yJsA&logo=false".format(ary[i][0],ary[i][1]))
+#   with urlopen(req) as res:
+#     with open ('./static/map{}.png'.format(i+1), mode='wb') as file:
+#       file.write(res.read())
+# file_list = glob.glob("./static/map*png")
+# for file in file_list:
+#     print("remove：{0}".format(file))
+#     os.remove(file)
 
 
 
