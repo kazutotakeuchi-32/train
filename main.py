@@ -121,8 +121,8 @@ def buttons_template_message():
 def image_message():
   print(url_for('static', filename='train.png') )
   return  ImageSendMessage(
-    original_content_url =  url_for('static', filename='train.png') ,
-    preview_image_url    =  url_for('static', filename='train.png')
+    original_content_url =  "http://train10.herokuapp.com"+url_for('static', filename='train.png') ,
+    preview_image_url    =  "http://train10.herokuapp.com"+url_for('static', filename='train.png')
   )
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
