@@ -119,6 +119,7 @@ def buttons_template_message():
   )
 
 def image_message():
+  print(url_for('static', filename='train.png') )
   return  ImageSendMessage(
     original_content_url =  url_for('static', filename='train.png') ,
     preview_image_url    =  url_for('static', filename='train.png')
