@@ -180,6 +180,7 @@ def handler_message(event):
     )
   elif text=="駅情報":
     ary=get_station_equipment("川崎")
+    user=line_bot_api.get_profile(event.source.user_id)
     for i in range(len(ary)):
       image_url="{}access_token={}&logo=false".format(ary[i][0],MAPBOX_ACCESS_TOKEN)
       # line_bot_api.reply_message(
@@ -193,10 +194,12 @@ def handler_message(event):
       for j in range(len(titles)):
         output+= "{}{}".format(titles[j],contents[j])
       text="------------------------\n{}\n{}\n-----------------------".format(station_name,output)
-      line_bot_api.reply_message(
-        event.reply_token,
-        [image_message(image_url), TextMessage(text=text)]
-      )
+      line_bot_api.push_message(user.user_id, messages=messages)
+      line_bot_api.push_message(user.user_id, messages=text)
+      # line_bot_api.reply_message(
+      #   event.reply_token,
+      #   [image_message(image_url), TextMessage(text=text)]
+      # )
 
   else :
     message =  "無効な値が入力されました。"
