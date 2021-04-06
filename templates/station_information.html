@@ -9,12 +9,36 @@
   <link rel="icon" href="{{ url_for('static', filename='train.png')}}">
 </head>
 <body>
-  <!-- <script>
-  </script> -->
+  <script>
+    liff.init({
+      // 自分のLIFF ID（URLから『https://liff.line.me/』を除いた文字列）を入力する
+      liffId: "1655819346-0jj638KZ"
+      }).then(() => {
+      // 初期化完了. 以降はLIFF SDK の各種メソッドを利用できる
+      document.querySelector("form").addEventListener("submit",function (e) {
+        e.preventDefault()
+        const stationName=  document.querySelector("#station_name").value
+        console.log(stationName);
+        liff.sendMessages([
+          {
+            type: 'text',
+            text:stationName
+          }
+        ])
+          .then(() => {
+            console.log('OK');
+            liff.closeWindow();
+          })
+          .catch((err) => {
+            console.log('error', err);
+          });
+              })
+      })
+  </script>
 
   <form action="">
     <label for="station_name">駅名</label>
-      <input type="text" id="start_name" name="start_name" placeholder="駅名を入力をして下さい">
+      <input type="text" id="station_name" name="station_name" placeholder="駅名を入力をして下さい">
     <input type="submit" value="送信">
   </form>
 </body>
