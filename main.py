@@ -176,7 +176,7 @@ def handler_message(event):
   elif text=="遅延情報":
     line_bot_api.reply_message(
       event.reply_token,
-      TextMessage(text="遅延情報")
+      # TextMessage(text="遅延情報")
     )
   elif text=="駅情報":
     ary=get_station_equipment("川崎")
@@ -184,6 +184,7 @@ def handler_message(event):
       image_url="{}access_token={}&logo=false".format(ary[i][0],MAPBOX_ACCESS_TOKEN)
       # line_bot_api.reply_message(
       #   event.reply_token,
+      #   [image_message(image_url)]
       # )
       station_name=ary[i][1]
       titles = ary[i][2].split(" ")[:-1]
@@ -194,8 +195,7 @@ def handler_message(event):
       text="------------------------\n{}\n{}\n-----------------------".format(station_name,output)
       line_bot_api.reply_message(
         event.reply_token,
-        image_message(image_url),
-        TextMessage(text=text)
+        [image_message(image_url), TextMessage(text=text)]
       )
 
   else :
