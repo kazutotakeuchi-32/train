@@ -35,6 +35,11 @@ handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 def index():
     return render_template("index.html")
 
+@app.route("/station_information",methods=["GET"])
+def station_information():
+  return render_template("station_information.html")
+
+
 @app.route("/callback",methods=['POST'])
 def callback():
   signature = request.headers['X-Line-Signature']
@@ -183,10 +188,6 @@ def handler_message(event):
     user=line_bot_api.get_profile(event.source.user_id)
     for i in range(len(ary)):
       image_url="{}access_token={}&logo=false".format(ary[i][0],MAPBOX_ACCESS_TOKEN)
-      # line_bot_api.reply_message(
-      #   event.reply_token,
-      #   [image_message(image_url)]
-      # )
       station_name=ary[i][1]
       titles = ary[i][2].split(" ")[:-1]
       contents=ary[i][3].split("separation")[:-1]
@@ -196,11 +197,6 @@ def handler_message(event):
       text=TextSendMessage(text="------------------------\n{}\n{}\n-----------------------".format(station_name,output))
       line_bot_api.push_message(user.user_id, messages=image_message(image_url))
       line_bot_api.push_message(user.user_id, messages=text)
-      # line_bot_api.reply_message(
-      #   event.reply_token,
-      #   [image_message(image_url), TextMessage(text=text)]
-      # )
-
   else :
     message =  "無効な値が入力されました。"
     line_bot_api.reply_message(
