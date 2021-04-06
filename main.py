@@ -182,10 +182,9 @@ def handler_message(event):
     ary=get_station_equipment("川崎")
     for i in range(len(ary)):
       image_url="{}access_token={}&logo=false".format(ary[i][0],MAPBOX_ACCESS_TOKEN)
-      line_bot_api.reply_message(
-        event.reply_token,
-        image_message(image_url)
-      )
+      # line_bot_api.reply_message(
+      #   event.reply_token,
+      # )
       station_name=ary[i][1]
       titles = ary[i][2].split(" ")[:-1]
       contents=ary[i][3].split("separation")[:-1]
@@ -195,6 +194,7 @@ def handler_message(event):
       text="------------------------\n{}\n{}\n-----------------------".format(station_name,output)
       line_bot_api.reply_message(
         event.reply_token,
+        image_message(image_url),
         TextMessage(text=text)
       )
 
