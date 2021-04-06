@@ -20,7 +20,7 @@
         e.preventDefault()
         const startStation=  document.querySelector("#start_station").value
         const endStation  =  document.querySelector("#end_station").value
-        const sendValue = `${startStation},${endStation}`
+        const sendValue = `電車乗り換え,${startStation},${endStation}`
         liff.sendMessages([
           {
             type: 'text',

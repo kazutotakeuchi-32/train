@@ -171,9 +171,10 @@ def image_message(image_url):
 @handler.add(MessageEvent,message=TextMessage)
 def handler_message(event):
   text=event.message.text
-  if len(text.split(","))>=2:
+
+  if text.split(",")[0]=="電車乗り換え":
     stations=text.split(",")
-    t_routes=get_train_routes(stations[0],stations[1])
+    t_routes=get_train_routes(stations[1],stations[2])
     line_bot_api.reply_message(
       event.reply_token,
       TextMessage(text=t_routes)
@@ -183,8 +184,8 @@ def handler_message(event):
       event.reply_token,
       # TextMessage(text="遅延情報")
     )
-  elif text=="駅情報":
-    ary=get_station_equipment("川崎")
+  elif text.split(",")[0]=="駅情報":
+    ary=get_station_equipment(text.split(",")[1])
     user=line_bot_api.get_profile(event.source.user_id)
     for i in range(len(ary)):
       image_url="{}access_token={}&logo=false".format(ary[i][0],MAPBOX_ACCESS_TOKEN)
